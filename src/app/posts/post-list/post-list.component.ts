@@ -10,7 +10,7 @@ import { PostsService } from '../posts.service';
   styleUrls: ['./post-list.component.css']
 })
 export class PostListComponent implements OnInit, OnDestroy{
-
+isLoading =  false;
   // posts = [
   //   {title: 'First Post', content: 'The first post\'s content'},
   //   {title: 'Second Post', content: 'The second post\'s content'},
@@ -25,8 +25,10 @@ export class PostListComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit(){
+    this.isLoading= true;
     this.postsService.getPosts();
     this.postsSub = this.postsService.getPostUpdateListner().subscribe((posts: Post[]) => {
+      this.isLoading=false;
       this.posts = posts;
     })
   }
