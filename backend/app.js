@@ -1,15 +1,16 @@
+const path = require('path');
 const express = require('express');
-const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
+
 const postRoutes = require('./routes/posts');
-// app.use( function(req, res, next) {
-//   if (req.originalUrl && req.originalUrl.split("/").pop() === 'favicon.ico') {
-//     return res.sendStatus(204);
-//   }
-//   return next();
-// });
-mongoose.connect('mongodb+srv://mahi:Ny7dXMEFwoW9wYNd@cluster0.l8oak.mongodb.net/node-angular?retryWrites=true&w=majority')
+const userRoutes = require('./routes/user');
+
+const app = express();
+
+mongoose.connect("mongodb+srv://mahi:"+
+process.env.MONGO_ATLAS_PW +
+"@cluster0.l8oak.mongodb.net/node-angular")
 .then(()=>{
   console.log('Connected to Database!');
 })
@@ -17,7 +18,10 @@ mongoose.connect('mongodb+srv://mahi:Ny7dXMEFwoW9wYNd@cluster0.l8oak.mongodb.net
   console.log('Connection failed!');
 })
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({extended: false}));
+
+app.use("/images", express.static(path.join("images")));
+// app.use("/", express.static(path.join(__dirname ,"angular")));
 
 app.use((req, res, next) => {
   res.setHeader(
@@ -25,7 +29,7 @@ app.use((req, res, next) => {
   );
   res.setHeader(
     'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
   res.setHeader(
     'Access-Control-Allow-Methods',
@@ -34,6 +38,10 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api/posts',postRoutes)
+app.use('/api/posts',postRoutes);
+app.use('/api/user', userRoutes);
+// app.use((req,res,next)=>{
+//   res.sendFile(path.join(__dirname,"angular","index.html"))
+// })
 
 module.exports = app;
