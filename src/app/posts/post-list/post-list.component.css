@@ -2,11 +2,32 @@
   display: block;
   margin-top: 1rem;
 }
+h4{
+  text-align: center;
+}
+mat-spinner {
+  margin: auto;
+}
 
-.info-text{
+mat-paginator {
+  margin-top: 1rem;
+  background-color: lightsteelblue;
+  color: black;
+  font-size: 1rem;
+  font-family: 'Times New Roman';
+}
+
+.info-text {
   text-align: center;
 }
 
-mat-spinner{
+.post-image {
+  width: 100%;
   margin: auto;
 }
+
+.post-image img {
+  width: 100%;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+}
+

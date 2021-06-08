@@ -1,34 +1,25 @@
+
 <mat-card>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <form [formGroup]='form' (submit) = "onSavePost()" *ngIf="!isLoading">
-  <mat-form-field>
-    <input
-    matInput
-    type="text"
-    formControlName="title"
-    placeholder="Post Title"
-    >
-    <mat-error *ngIf="form.get('title').invalid">Please enter the title</mat-error>
-  </mat-form-field>
-  <div>
-    <button mat-stroked-button type="button" (click) = "filePicker.click()">Pick Image</button>
-    <input type="file" #filePicker (change)= "onImagePicker($event)">
-  </div>
-  <div class="image-preview" *ngIf="imagePreview!=='' && imagePreview">
-    <img [src]="imagePreview" [alt]="form.value.title" formControlName= 'image'>
-  </div>
-  <mat-form-field>
-    <textarea
-    matInput
-    rows="4"
-    formControlName = "content"
-    placeholder="Post Content"
-    ></textarea>
-    <mat-error *ngIf="form.get('content').invalid">Please enter some content</mat-error>
-  </mat-form-field>
-  <button
-  mat-raised-button
-  color = "primary"
-  type="submit">Save Post</button>
-</form>
+  <form [formGroup]="form" (submit)="onSavePost()" *ngIf="!isLoading">
+    <mat-form-field>
+      <input matInput type="text" formControlName="title" placeholder="Title">
+      <mat-error *ngIf="form.get('title').invalid">Please enter a post title.</mat-error>
+    </mat-form-field>
+    <div>
+      <button mat-stroked-button type="button" (click)="filePicker.click()">Pick Image</button>
+      <input type="file" #filePicker (change)="onImagePicked($event)">
+    </div>
+    <!-- <span *ngIf= "form.get('image').touched && form.get('image').errors?.required">
+      Please select an image before posting!
+    </span> -->
+    <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview && form.get('image').valid">
+      <img [src]="imagePreview" [alt]="form.value.title">
+    </div>
+    <mat-form-field>
+      <textarea matInput rows="4" formControlName="content" placeholder="Content"></textarea>
+      <mat-error *ngIf="form.get('content').invalid">Please enter a post title.</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" [disabled] = "!form.valid">Save Post</button>
+  </form>
 </mat-card>

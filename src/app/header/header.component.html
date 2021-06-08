@@ -1,11 +1,23 @@
-<mat-toolbar color="primary">
-  <span><a routerLink="">My Messages</a></span>
+<mat-toolbar color="primary" [class.mat-elevation-z8]=true>
+  <span>
+    <a routerLink="/">MyMessages</a>
+  </span>
 
   <span class="spacer"></span>
+  <h4>Post Store</h4>
+  <span class="spacer"></span>
   <ul>
-    <li>
-      <a mat-button routerLink="create" routerLinkActive="mat-accent">Create Posts</a>
+    <li *ngIf="userIsAuthenticated">
+      <a mat-button routerLink="/create" routerLinkActive="active">Create Post</a>
+    </li>
+    <li *ngIf="!userIsAuthenticated">
+      <a mat-button routerLink="/auth/login" routerLinkActive="active">Login</a>
+    </li>
+    <li *ngIf="!userIsAuthenticated">
+      <a mat-button routerLink="/auth/signup" routerLinkActive="active">Signup</a>
+    </li>
+    <li *ngIf="userIsAuthenticated">
+      <button mat-button (click)="onLogout()">Logout</button>
     </li>
   </ul>
 </mat-toolbar>
-
